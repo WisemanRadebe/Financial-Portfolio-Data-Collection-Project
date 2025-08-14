@@ -15,16 +15,14 @@ The resulting dataset is the foundation for downstream **portfolio analysis**, *
 ---
 
 ## 🗂️ Table of Contents
-1. [Project Goals](#-project-goals)  
-2. [Data Sources](#-data-sources)  
-3. [Environment & Setup](#-environment--setup)  
-4. [Portfolio Configuration](#-portfolio-configuration)  
-5. [Data Collection](#-data-collection)  
-6. [Data Quality Checks](#-data-quality-checks)  
-7. [(Optional) Data Export](#-optional-data-export)  
-8. [Sample Output](#-sample-output)  
-9. [Next Steps](#-next-steps)  
-10. [Citations](#-citations)
+1. [Project Goals]
+2. [Data Sources]
+3. [Environment & Setup]
+4. [Portfolio Configuration] 
+5. [Data Collection]
+6. [Data Quality Checks]
+7. [Next Steps]
+8. [Citations]
 
 ---
 
@@ -32,6 +30,8 @@ The resulting dataset is the foundation for downstream **portfolio analysis**, *
 - **Collect** daily OHLCV price data for selected tickers.
 - **Validate** integrity (missing values, date ranges, price sanity, volume).
 - **Prepare** clean datasets for analysis in subsequent notebooks.
+- **Analyse** dataset and perform **risk-return** analysis.
+- **Visualize** price trends and correlations,
 
 ---
 
@@ -64,3 +64,51 @@ TICKERS = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'TSLA', 'META', 'SPY']
 START_DATE = '2021-01-01'
 END_DATE   = '2025-01-01'
 ```
+## 🧲 Data Collection
+Robust download with basic error handling (inside the notebook):
+
+```
+def collect_stock_data(tickers, start_date, end_date):
+    import yfinance as yf
+    stock_data, failed = {}, []
+    for t in tickers:
+        try:
+            df = yf.download(t, start=start_date, end=end_date, progress=False)
+            if df.empty:
+                failed.append(t)
+            else:
+                stock_data[t] = df
+        except Exception:
+            failed.append(t)
+    return stock_data, failed
+
+stock_data, failed_stocks = collect_stock_data(TICKERS, START_DATE, END_DATE)
+```
+✅ Data Quality Checks
+
+The notebook evaluates:
+- Observations count per ticker
+- Missing values
+- Date coverage (start/end)
+- Average daily volume
+- Close price range (min/max)
+
+Example function:
+```
+def assess_data_quality(stock_data):
+    report = {}
+    for t, df in stock_data.items():
+        report[t] = {
+            "observations": len(df),
+            "missing_values": int(df.isna().sum().sum()),
+            "date_range": (df.index.min(), df.index.max()),
+            "avg_volume": float(df["Volume"].mean()) if "Volume" in df else None,
+            "price_range": (float(df["Close"].min()), float(df["Close"].max()))
+        }
+    return report
+
+quality_report = assess_data_quality(stock_data)
+```
+
+## 📚 Citations
+- yfinance Python package: Yahoo Finance market data.
