@@ -57,9 +57,10 @@ seaborn
 yfinance
 ```
 
-##⚙️ Portfolio Configuration
+## ⚙️ Portfolio Configuration
 Adjust these in the notebook to change your universe or date window:
-
+```
 TICKERS = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'TSLA', 'META', 'SPY']
 START_DATE = '2021-01-01'
 END_DATE   = '2025-01-01'
+```
