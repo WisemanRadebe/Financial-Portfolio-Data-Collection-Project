@@ -110,5 +110,26 @@ def assess_data_quality(stock_data):
 quality_report = assess_data_quality(stock_data)
 ```
 
+## ⏭️ Next Steps
+
+The following steps will be executed in subsequent notebooks to extend the analysis:
+
+
+1. **Risk & Return Metrics**  
+   - Compute **CAGR (Compound Annual Growth Rate)**, **annualized volatility**, **Sharpe Ratio**, and **maximum drawdown**.  
+   - Benchmark performance of the **Magnificent 7 portfolio** against the **S&P 500 (SPY)**.
+
+2. **Visualization**  
+   - Plot price trends for each ticker and the aggregated portfolio.  
+   - Create drawdown charts to visualize downside risk.  
+   - Generate heatmaps to explore correlations between assets.
+
+3. **Comparison & Insights**  
+   - Compare risk-adjusted performance between Magnificent 7 and SPY.  
+   - Highlight diversification benefits or concentration risks.  
+
+---
+
+
 ## 📚 Citations
 - yfinance Python package: Yahoo Finance market data.
