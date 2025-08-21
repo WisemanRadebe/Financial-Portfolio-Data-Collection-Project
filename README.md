@@ -20,9 +20,8 @@ The resulting dataset is the foundation for downstream **portfolio analysis**, *
 3. [Environment & Setup]
 4. [Portfolio Configuration] 
 5. [Data Collection]
-6. [Data Quality Checks]
-7. [Next Steps]
-8. [Citations]
+6. [Next Steps]
+7. [Citations]
 
 ---
 
@@ -83,31 +82,6 @@ def collect_stock_data(tickers, start_date, end_date):
     return stock_data, failed
 
 stock_data, failed_stocks = collect_stock_data(TICKERS, START_DATE, END_DATE)
-```
-✅ Data Quality Checks
-
-The notebook evaluates:
-- Observations count per ticker
-- Missing values
-- Date coverage (start/end)
-- Average daily volume
-- Close price range (min/max)
-
-Example function:
-```
-def assess_data_quality(stock_data):
-    report = {}
-    for t, df in stock_data.items():
-        report[t] = {
-            "observations": len(df),
-            "missing_values": int(df.isna().sum().sum()),
-            "date_range": (df.index.min(), df.index.max()),
-            "avg_volume": float(df["Volume"].mean()) if "Volume" in df else None,
-            "price_range": (float(df["Close"].min()), float(df["Close"].max()))
-        }
-    return report
-
-quality_report = assess_data_quality(stock_data)
 ```
 
 ## ⏭️ Next Steps
